@@ -8,17 +8,19 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
 
     @IBOutlet var myTableView: UITableView!
-    var viewModel : TableViewModelDelegate = TableViewModel()
+    var viewModel : TableViewModel?
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        viewModel.rateObservable.bind(to: self.myTableView.rx.items(cellIdentifier: "currencyCell", cellType: CurrencyTableViewCell.self)){(row, data, cell) in
+        viewModel  = TableViewModel()
+        viewModel?.rateObservable?.bind(to: myTableView.rx.items(cellIdentifier: "currencyCell", cellType: CurrencyTableViewCell.self)){(row, data, cell) in
             cell.currenyLabel.text = data.currency
             cell.rateLabel.text = String(format: "%f", data.currencyRate)
             }.disposed(by: disposeBag)
