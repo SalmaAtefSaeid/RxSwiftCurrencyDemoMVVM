@@ -12,8 +12,8 @@ import RxSwift
 class TableViewModel: TableViewModelDelegate {
     
     var network : NetworkDelegate = Network()
-    var subject = PublishSubject<Rate>()
-    var rateObservable : Observable<Rate>?
+    var subject = PublishSubject<[Rate]>()
+    var rateObservable : Observable<[Rate]>?
     var apiUrl = "https://api.exchangeratesapi.io/latest"
     
     init() {
@@ -40,9 +40,11 @@ class TableViewModel: TableViewModelDelegate {
     }
     
     func convertToRateList(currency: Currency){
+        var ratesList = [Rate]()
         for rate in currency.rates{
             var currencyRate = Rate(currency: rate.key, currencyRate: rate.value)
-            subject.onNext(currencyRate)
+            ratesList.append(currencyRate)
         }
+        subject.onNext(ratesList)
     }
 }

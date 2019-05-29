@@ -21,8 +21,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         viewModel  = TableViewModel()
         viewModel?.rateObservable?.bind(to: myTableView.rx.items(cellIdentifier: "currencyCell", cellType: CurrencyTableViewCell.self)){(row, data, cell) in
-            cell.currenyLabel.text = data.currency
-            cell.rateLabel.text = String(format: "%f", data.currencyRate)
+                cell.currenyLabel.text = data.currency
+                cell.rateLabel.text = String(format: "%f", data.currencyRate)
             }.disposed(by: disposeBag)
     }
 
